@@ -1,0 +1,8 @@
+User
+    - Default
+
+Result 
+    - total_advertisers int
+    - total_links int
+    - search_summary string
+    - html longtext

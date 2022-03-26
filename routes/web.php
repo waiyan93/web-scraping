@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ResultController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/login', function(){
+
+})->name('login'); 
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('/results/{id}', [ResultController::class, 'show'])->name('results.show');
 });
