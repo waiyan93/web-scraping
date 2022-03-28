@@ -11,12 +11,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ViewResultTest extends TestCase
 {
     use RefreshDatabase;
+    
     /** @test */
     public function guests_cannot_view_the_search_result()
     {
-        $result = Result::factory()->create();
-
-        $response = $this->get("/results/{$result->id}");
+        $response = $this->get("/results/1");
 
         $response->assertStatus(302);
         $response->assertRedirect('/login');
@@ -27,13 +26,15 @@ class ViewResultTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $user = User::factory()->make();
+        $user = User::factory()->create();
 
         $result = Result::create([
+            'keyword' => 'Hello',
             'total_advertisers' => 10,
             'total_links' => 20,
             'search_summary' => 'About 89,700,000 results (0.41 seconds)',
-            'web_content' => '<h2>This is result html.</h2>'
+            'web_content' => '<h2>This is result html.</h2>',
+            'user_id' => $user->id
         ]);
 
         $response = $this->actingAs($user)->get("/results/{$result->id}");
@@ -42,6 +43,7 @@ class ViewResultTest extends TestCase
         $response->assertViewIs('results.show');
         $response->assertViewHas('result', $result);
     
+        $response->assertSee('Hello');
         $response->assertSee(10);
         $response->assertSee(20);
         $response->assertSee('About 89,700,000 results (0.41 seconds)');

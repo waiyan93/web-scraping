@@ -17,6 +17,7 @@ class ResultFactory extends Factory
     public function definition()
     {
         return [
+            'keyword' => $this->faker->word(),
             'total_advertisers' => $this->faker->numberBetween(1, 10),
             'total_links' => $this->faker->numberBetween(1, 20),
             'search_summary' => 'About 89,700,000 results (0.41 seconds)',

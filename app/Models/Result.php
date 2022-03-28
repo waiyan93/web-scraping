@@ -10,6 +10,7 @@ class Result extends Model
     use HasFactory;
 
     protected $fillable = [
+        'keyword',
         'total_advertisers', 
         'total_links', 
         'search_summary', 

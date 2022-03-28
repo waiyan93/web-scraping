@@ -22,6 +22,9 @@ Route::get('/login', function(){
 
 })->name('login'); 
 
+
 Route::middleware(['auth'])->group(function() {
+    Route::get('/results', [ResultController::class, 'index'])->name('results.index');
+    Route::get('/results/search', [ResultController::class, 'search'])->name('results.search');
     Route::get('/results/{id}', [ResultController::class, 'show'])->name('results.show');
 });

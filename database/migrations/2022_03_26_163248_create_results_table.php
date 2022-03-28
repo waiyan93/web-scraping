@@ -19,6 +19,7 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->string('keyword');
             $table->tinyInteger('total_advertisers');
             $table->tinyInteger('total_links');
             $table->string('search_summary');
