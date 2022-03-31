@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('results', function (Blueprint $table) {
+        Schema::create('csvs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
                 ->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->string('keyword');
-            $table->tinyInteger('total_advertisers');
-            $table->tinyInteger('total_links');
-            $table->string('search_summary');
-            $table->longText('web_content');
+            $table->string('path');
+            $table->integer('total_keywords')->default(0);
+            $table->integer('total_scraped_keywords')->default(0);
+            $table->boolean('is_scraped')->default(false);
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('results');
+        Schema::dropIfExists('csvs');
     }
 };
