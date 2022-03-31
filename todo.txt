@@ -1,10 +1,16 @@
 User
     - Default
 
+CSV 
+    - path string
+    - total_keywords int
+    - is_done [True/False]
+
 Result 
+    - csv_id
+    - user_id
     - keyword string
     - total_advertisers int
     - total_links int
     - search_summary string
     - html longtext
-    - user_id 

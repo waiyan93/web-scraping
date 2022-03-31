@@ -15,6 +15,11 @@ class Result extends Model
         'total_links', 
         'search_summary', 
         'web_content', 
-        'user_id'
+        'csv_id'
     ];
+
+    public function csv()
+    {
+        return $this->belongsTo(Csv::class);
+    }
 }

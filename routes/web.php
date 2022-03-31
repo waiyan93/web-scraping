@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CsvController;
 use App\Http\Controllers\ResultController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,17 +15,17 @@ use App\Http\Controllers\ResultController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/login', function(){
-
-})->name('login'); 
-
 
 Route::middleware(['auth'])->group(function() {
-    Route::get('/results', [ResultController::class, 'index'])->name('results.index');
+    Route::get('/', [ResultController::class, 'index']);
+    
     Route::get('/results/search', [ResultController::class, 'search'])->name('results.search');
-    Route::get('/results/{id}', [ResultController::class, 'show'])->name('results.show');
+    Route::get('/results/{id}/html', [ResultController::class, 'showHTML'])->name('results.html');
+    Route::resource('results', ResultController::class)->except([
+        'update', 'destory'
+    ]);
+    Route::get('/csvs/{id}', [CsvController::class, 'show']);
 });
+
+
+require __DIR__.'/auth.php';
