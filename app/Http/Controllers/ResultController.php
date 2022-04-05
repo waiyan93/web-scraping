@@ -31,23 +31,8 @@ class ResultController extends Controller
 
     public function store(StoreResultRequest $request)
     {
-        $keywords = collect(array_map('str_getcsv', file($request->file('csv'))))
-            ->flatten()
-            ->reject(function($keyword) {
-                return $keyword === "";
-            });
-        
-        if ($keywords->count() > 100) {
-            return response()->json([
-                'errors' => [
-                    'csv' => [
-                        'The keywords is more than 100.'
-                    ]
-                ]
-            ], 422);  
-        }
-
         $path = Storage::disk('public')->putFile('/csvs', $request->file('csv'));
+        $keywords = collect($request->keywords);
 
         $csv = Auth::user()->csvs()->create([
             'path' => $path,

@@ -125,8 +125,12 @@ export default {
         })
         .catch((e) => {
           if (e.response.status === 422) {
-            console.log(e.response);
-            this.error = e.response.data.errors.csv[0];
+            if (e.response.data.errors.hasOwnProperty("csv")) {
+              this.error = e.response.data.errors.csv[0];
+              return;
+            }
+
+            this.error = e.response.data.errors.keywords[0];
           }
         });
     },
