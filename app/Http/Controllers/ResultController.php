@@ -34,8 +34,8 @@ class ResultController extends Controller
         $keywords = collect(array_map('str_getcsv', file($request->file('csv'))))
             ->flatten()
             ->reject(function($keyword) {
-                return $keyword === "";
-            });
+                return $keyword === "" || $keyword === null;
+            });   
         
         if ($keywords->count() > 100) {
             return response()->json([
