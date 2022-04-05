@@ -24,7 +24,32 @@ class StoreResultRequest extends FormRequest
     public function rules()
     {
         return [
-            'csv' => ['required', 'mimes:csv,txt', 'max:2048']
+            'csv' => [
+                'bail',
+                'required', 
+                'mimes:csv,txt', 
+                'max:2048',
+            ],
+            'keywords' => ['bail', 'array', 'min:1', 'max:100']
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'keywords' => collect(
+                array_map('str_getcsv', file($this->file('csv')))
+            )
+            ->flatten()
+            ->reject(function($keyword) {
+                return $keyword === "" || $keyword === null;
+            })
+            ->toArray()
+        ]);
     }
 }
